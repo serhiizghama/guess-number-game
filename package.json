@@ -1,0 +1,13 @@
+{
+    "name": "numble",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "start": "node dist/server.js",
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "@types/node": "^20.19.23",
+        "typescript": "^5.0.0"
+    }
+}
