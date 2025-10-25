@@ -1,6 +1,6 @@
 # 🎯 Guess Number Game
 
-**🌐 Live Demo:** https://guess-number-game-mvxk.onrender.com/guess/50
+**🌐 Live Demo:** https://guess-number-game-mvxk.onrender.com/guess?num=50
 
 ## 🎮 Game Description
 
@@ -14,13 +14,13 @@ This is a simple yet engaging number guessing game where players try to guess a 
 
 - **Persistent Scoring**: Your wins are tracked using cookies, so your score persists across sessions
 - **Auto-Reset**: When you win, a new secret number is automatically generated for the next round
-- **Simple API**: Just make a GET request to `/guess/{number}` where number is between 1-100
+- **Simple API**: Just make a GET request to `/guess?num={number}` where number is between 1-100
 - **Real-time Feedback**: Get immediate feedback on your guess
 
 ### 🎯 How to Play
 
 1. Visit the live demo URL above
-2. Try guessing a number by replacing the number in the URL (e.g., `/guess/50`)
+2. Try guessing a number by changing the `num` parameter in the URL (e.g., `/guess?num=75`)
 3. The server will respond with:
    - Your guess result (`more`, `less`, or `win`)
    - Your current win count
@@ -67,11 +67,11 @@ This is a simple yet engaging number guessing game where players try to guess a 
    ```
 
 5. **Test the game**:
-   Open your browser and visit: `http://localhost:3000/guess/50`
+   Open your browser and visit: `http://localhost:3000/guess?num=50`
    
    Or use curl:
    ```bash
-   curl http://localhost:3000/guess/50
+   curl http://localhost:3000/guess?num=50
    ```
 
 ### Development Scripts

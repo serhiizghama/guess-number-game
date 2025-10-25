@@ -3,7 +3,6 @@ import { createServer, IncomingMessage, ServerResponse } from 'node:http';
 
 let secretNumber: number | null = null;
 const wins = new Map<string, number>();
-const GUESS_REGEX: RegExp = /^\/guess\/([1-9]|[1-9]\d|100)$/;
 
 enum GameResult {
   More = 'more',
@@ -47,13 +46,29 @@ function sendResponse(res: ServerResponse, data: any) {
 }
 
 const server = createServer((req, res) => {
-  const match = req.url?.match(GUESS_REGEX);
-  if (!match) {
-    sendResponse(res, { error: 'Use /guess/<number> (1-100)' });
+  const url = new URL(req.url!, `http://${req.headers.host}`);
+  
+  // Check if path is /guess
+  if (url.pathname !== '/guess') {
+    sendResponse(res, { error: 'Use /guess?num=<number> (1-100)' });
     return;
   }
 
-  const guess = Number(match[1]);
+  // Get num parameter from query string
+  const numParam = url.searchParams.get('num');
+  if (!numParam) {
+    sendResponse(res, { error: 'Missing num parameter. Use /guess?num=<number> (1-100)' });
+    return;
+  }
+
+  const guess = Number(numParam);
+  
+  // Validate the number
+  if (isNaN(guess) || guess < 1 || guess > 100 || !Number.isInteger(guess)) {
+    sendResponse(res, { error: 'Number must be an integer between 1-100' });
+    return;
+  }
+
   const playerId = getOrSetupPlayerId(req, res);
 
   let result: GameResult;
@@ -76,4 +91,4 @@ const server = createServer((req, res) => {
 
 ensureSecret();
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`Server running: http://localhost:${PORT}/guess/<number>`));
+server.listen(PORT, () => console.log(`Server running: http://localhost:${PORT}/guess?num=<number>`));
